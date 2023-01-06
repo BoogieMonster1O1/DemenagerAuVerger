@@ -1,6 +1,7 @@
 <script lang="ts">
     import SpotifyWebApi from "spotify-web-api-node";
-    import {isSpotifyAuthenticated} from "../data.ts";
+    import {Data} from "../data.ts";
+    import { page } from '$app/stores'
 
     let spotifyClientId = "6d4a73bb70b4458788399cb6da368b36"
     let spotifyClientSecret = "7a2c7e3e5b5640a39fab84ac273d792a"
@@ -11,11 +12,40 @@
         clientSecret: spotifyClientSecret,
         redirectUri: spotifyRedirectUri
     });
-    let authUrl = spotifyApi.createAuthorizeURL(scopes, "spotify")
+    let authUrl = spotifyApi.createAuthorizeURL(scopes, "spotify");
 
     // function onSpotifyClick() {
     //     console.log("Spotify auth clicked");
     // }
+
+    let params = $page.url.searchParams
+    let state = params.get("state");
+    let spotifyAuthDone = false;
+    // window.alert(state);
+    if (state === "spotify") {
+        let code = params.get("code");
+        console.log("Spotify auth code: " + code);
+        spotifyApi.authorizationCodeGrant(code).then(
+            function (data) {
+                console.log('The token expires in ' + data.body['expires_in']);
+                console.log('The access token is ' + data.body['access_token']);
+                console.log('The refresh token is ' + data.body['refresh_token']);
+
+                // Set the access token on the API object to use it in later calls
+                spotifyApi.setAccessToken(data.body['access_token']);
+                spotifyApi.setRefreshToken(data.body['refresh_token']);
+                Data.isSpotifyAuthenticated = true;
+                spotifyAuthDone = true;
+            },
+            function (err) {
+                console.log('Something went wrong!', err);
+            }
+        );
+    }
+
+    function onSpotifyClick() {
+        Data.isSpotifyAuthenticated = true;
+    }
 
     function onAppleClick() {
         console.log("Apple auth clicked");
@@ -33,11 +63,11 @@
         <br><br><br>
         <br><br>
 
-        {#if isSpotifyAuthenticated}
+        {#if spotifyAuthDone}
             <h1>Spotify Authenticated!</h1>
         {:else}
             <a href="{authUrl}">
-                <button class="bg-blue-700 hover:bg-blue-500 text-white text-2xl p-5 m-7 rounded">Authenticate Spotify</button>
+                <button class="bg-blue-700 hover:bg-blue-500 text-white text-2xl p-5 m-7 rounded" on:click{onSpotifyClick}>Authenticate Spotify</button>
             </a>
         {/if}
 
