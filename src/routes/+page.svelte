@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<main>
+    <div class="flex flex-col font-epicfont justify-center text-center pt-4">
+        <header class="fixed top-0 flex justify-center flex-col text-center w-full border-b border-gray-400 bg-white">
+            <div class="text-5xl"><h1>DemenagerAuVerger</h1></div>
+            <div class="text-xs"><h1>You must be a chad</h1></div>
+        </header>
+        <br><br>
+        <br><br><br>
+        <br><br>
+
+        <button class="bg-blue-700 hover:bg-blue-500 text-white text-2xl p-5 m-7 rounded">Authenticate Spotify</button>
+        <button class="bg-blue-700 hover:bg-blue-500 text-white text-2xl p-5 m-7 mt-0 rounded">Authenticate Apple Music</button>
+
+
+        <div class="text-xl lg:pl-40 lg:pr-40 lg:text-left">
+            Move your spotify library to Apple Music.
+            <div class="text-s"><a href="https://github.com/BoogieMonster1O1/DemenagerAuVerger" rel="noreferrer" target="_blank" class="text-blue-600">Source Code</a></div>
+        </div>
+    </div>
+</main>
