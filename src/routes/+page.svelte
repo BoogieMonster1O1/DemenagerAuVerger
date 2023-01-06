@@ -11,7 +11,7 @@
         clientSecret: spotifyClientSecret,
         redirectUri: spotifyRedirectUri
     });
-    let authUrl = spotifyApi.createAuthorizeURL(scopes, "state")
+    let authUrl = spotifyApi.createAuthorizeURL(scopes, "spotify")
 
     // function onSpotifyClick() {
     //     console.log("Spotify auth clicked");
